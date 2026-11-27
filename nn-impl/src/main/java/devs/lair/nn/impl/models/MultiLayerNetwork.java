@@ -1,4 +1,4 @@
-package devs.lair.nn.impl.model;
+package devs.lair.nn.impl.models;
 
 import devs.lair.nn.intefaces.base.BaseNetworkModel;
 import devs.lair.nn.intefaces.base.BaseNeuronParameters;

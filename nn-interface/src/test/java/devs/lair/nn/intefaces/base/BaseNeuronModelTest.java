@@ -3,6 +3,7 @@ package devs.lair.nn.intefaces.base;
 import devs.lair.nn.intefaces.base.proto.LayerWithParameters;
 import devs.lair.nn.intefaces.enums.LayerType;
 import devs.lair.nn.intefaces.enums.NetworkType;
+import devs.lair.nn.intefaces.enums.NeuronType;
 import devs.lair.nn.intefaces.enums.WeightInitStrategy;
 import devs.lair.nn.intefaces.model.LayerModel;
 import org.junit.jupiter.api.DisplayName;
@@ -15,19 +16,20 @@ class BaseNeuronModelTest {
     @Test
     @DisplayName("Create Instance")
     void createInstance() {
-        BaseNeuronModel neuronModel = new BaseNeuronModel() {
+        BaseNeuronModel neuronModel = new BaseNeuronModel(NeuronType.BASIC) {
         };
 
         assertThat(neuronModel.getParent()).isNull();
         assertThat(neuronModel.getActivationFunction()).isNull();
         assertThat(neuronModel.getWeightInitStrategy()).isNull();
         assertThat(neuronModel.isEnabled()).isTrue();
+        assertThat(neuronModel.getType()).isEqualTo(NeuronType.BASIC);
     }
 
     @Test
     @DisplayName("Work with enabled")
     void workWithEnabled() {
-        BaseNeuronModel neuronModel = new BaseNeuronModel() {
+        BaseNeuronModel neuronModel = new BaseNeuronModel(NeuronType.BASIC) {
         };
 
         assertThat(neuronModel.isEnabled()).isTrue();
@@ -41,7 +43,7 @@ class BaseNeuronModelTest {
     @Test
     @DisplayName("Link to Layer")
     void linkToLayer() {
-        BaseNeuronModel neuronModel = new BaseNeuronModel() {
+        BaseNeuronModel neuronModel = new BaseNeuronModel(NeuronType.BASIC) {
         };
 
         BaseLayerModel layerModel = new BaseLayerModel(LayerType.DENSE) {
@@ -58,7 +60,7 @@ class BaseNeuronModelTest {
     @Test
     @DisplayName("Link to Layer with parameters")
     void mergeParameters() {
-        BaseNeuronModel neuronModel = new BaseNeuronModel() {
+        BaseNeuronModel neuronModel = new BaseNeuronModel(NeuronType.BASIC) {
         };
         assertThat(neuronModel.getWeightInitStrategy()).isNull();
 
@@ -86,7 +88,7 @@ class BaseNeuronModelTest {
         LayerModel secondLayer = new BaseLayerModel(LayerType.DENSE) {
         };
 
-        BaseNeuronModel neuron = new BaseNeuronModel() {
+        BaseNeuronModel neuron = new BaseNeuronModel(NeuronType.BASIC) {
         };
 
         firstLayer.addNeuron(neuron);

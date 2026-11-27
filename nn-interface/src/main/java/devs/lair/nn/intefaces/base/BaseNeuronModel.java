@@ -1,5 +1,6 @@
 package devs.lair.nn.intefaces.base;
 
+import devs.lair.nn.intefaces.enums.NeuronType;
 import devs.lair.nn.intefaces.model.LayerModel;
 import devs.lair.nn.intefaces.model.NeuronModel;
 import org.jetbrains.annotations.NotNull;
@@ -8,8 +9,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public abstract class BaseNeuronModel extends BaseNeuronParameters implements NeuronModel {
+    private final NeuronType type;
+
     private LayerModel layer;
     private boolean enabled = true;
+
+    public BaseNeuronModel(@NotNull NeuronType type) {
+        this.type = type;
+    }
+
+    @Override
+    public @NotNull NeuronType getType() {
+        return type;
+    }
 
     @Override
     public @NotNull NeuronModel setEnabled(boolean value) {
