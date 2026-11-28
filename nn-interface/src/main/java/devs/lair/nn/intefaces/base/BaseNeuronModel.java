@@ -9,12 +9,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public abstract class BaseNeuronModel extends BaseNeuronParameters implements NeuronModel {
+    public static final String UNPARENT_NEURON = "Unparent neuron";
+
     private final NeuronType type;
 
     private LayerModel layer;
     private boolean enabled = true;
 
-    public BaseNeuronModel(@NotNull NeuronType type) {
+    protected BaseNeuronModel(@NotNull NeuronType type) {
         this.type = type;
     }
 
@@ -57,5 +59,14 @@ public abstract class BaseNeuronModel extends BaseNeuronParameters implements Ne
                 oldParent.removeNeuron(this);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        if (layer == null) {
+            return UNPARENT_NEURON;
+        }
+
+        return "Neuron number " + layer.indexOf(this) + " of " + layer;
     }
 }

@@ -12,6 +12,8 @@ public interface LayerModel extends ChildOf<NetworkModel>, ParentFor<NeuronModel
 
     @NotNull LayerModel addNeuron(@NotNull NeuronModel neuron);
 
+    void setNeuronAt(int index, @NotNull NeuronModel neuron);
+
     boolean removeNeuron(@NotNull NeuronModel neuron);
 
     default @NotNull List<@NotNull NeuronModel> getNeurons() {

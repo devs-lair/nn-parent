@@ -1,5 +1,5 @@
 package devs.lair.nn.impl.check;
 
-public enum ResultLevel {
+public enum ItemCheckResultLevel {
     OK, INFO, WARNING, ERROR,
 }

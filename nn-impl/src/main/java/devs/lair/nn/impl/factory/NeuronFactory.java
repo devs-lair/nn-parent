@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class NeuronFactory {
 
+    private NeuronFactory() {
+        /* This utility class should not be instantiated */
+    }
+
     public static @NotNull NeuronModel createNeuron(@NotNull NeuronType type) {
         return switch (type) {
             case BASIC -> new BasicNeuron();

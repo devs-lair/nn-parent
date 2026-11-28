@@ -67,4 +67,9 @@ public class BaseNetworkModel implements NetworkModel, NamedItem, UuidIdentity {
     public @NotNull UUID getUuid() {
         return uuid;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

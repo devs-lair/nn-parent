@@ -13,7 +13,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MultiLayerNetwork extends BaseNetworkModel implements NeuronParametersHolder {
+public class MultiLayerNetwork extends BaseNetworkModel implements
+        NeuronParametersHolder {
+
     private final NeuronParameters neuronParameters;
 
     public MultiLayerNetwork() {
@@ -28,7 +30,7 @@ public class MultiLayerNetwork extends BaseNetworkModel implements NeuronParamet
         return this;
     }
 
-    public MultiLayerNetwork addAllLayers(@NotNull List<@NotNull LayerModel> newLayers) {
+    public MultiLayerNetwork addLayers(@NotNull List<@NotNull LayerModel> newLayers) {
         newLayers.forEach(this::addLayer);
         return this;
     }

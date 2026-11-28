@@ -3,6 +3,7 @@ package devs.lair.nn.intefaces.base;
 import devs.lair.nn.intefaces.enums.ActivationFunctionName;
 import devs.lair.nn.intefaces.enums.WeightInitStrategy;
 import devs.lair.nn.intefaces.model.NeuronParameters;
+import devs.lair.nn.intefaces.model.NeuronParametersHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class BaseNeuronParameters implements NeuronParameters {
+public class BaseNeuronParameters implements NeuronParameters, NeuronParametersHolder {
     private Map<String, Object> customParameters;
     private WeightInitStrategy weightInitStrategy;
     private ActivationFunctionName activationFunction;
@@ -76,6 +77,11 @@ public class BaseNeuronParameters implements NeuronParameters {
             setActivationFunction(other.getActivationFunction());
         }
 
+        return this;
+    }
+
+    @Override
+    public @NotNull NeuronParameters getNeuronParameters() {
         return this;
     }
 }

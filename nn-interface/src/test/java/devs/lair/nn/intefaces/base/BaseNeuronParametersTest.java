@@ -24,19 +24,19 @@ class BaseNeuronParametersTest {
     @Test
     @DisplayName("Set by flow")
     void setByFlow() {
-        String MY_PARAMETER = "MyParameter";
+        String myParameter = "MyParameter";
 
         NeuronParameters params = new BaseNeuronParameters()
                 .setActivationFunction(ActivationFunctionName.SIGMOID)
                 .setWeightInitStrategy(WeightInitStrategy.CUSTOM)
                 .setCustomParameter(NeuronParameters.Keys.CUSTOM_ACTIVATION_FUNCTION, Object.class)
-                .setCustomParameter(MY_PARAMETER, 1);
+                .setCustomParameter(myParameter, 1);
 
         assertThat(params.getActivationFunction()).isEqualTo(ActivationFunctionName.SIGMOID);
         assertThat(params.getWeightInitStrategy()).isEqualTo(WeightInitStrategy.CUSTOM);
         assertThat(params.getCustomParameter(NeuronParameters.Keys.CUSTOM_ACTIVATION_FUNCTION)).isEqualTo(Object.class);
         assertThat(params.getCustomParameter(NeuronParameters.Keys.CUSTOM_WEIGHT_INIT_STRATEGY)).isNull();
-        assertThat(params.getCustomParameter(MY_PARAMETER)).isEqualTo(1);
+        assertThat(params.getCustomParameter(myParameter)).isEqualTo(1);
         assertThat(params.getCustomParameters()).isNotEmpty();
     }
 
@@ -48,7 +48,7 @@ class BaseNeuronParametersTest {
                 .setActivationFunction(ActivationFunctionName.SIGMOID)
                 .setWeightInitStrategy(WeightInitStrategy.XAVIER);
 
-        other.merge(params);
+        other.merge(params).merge(params);
 
         assertThat(other.getWeightInitStrategy()).isEqualTo(WeightInitStrategy.XAVIER);
         assertThat(other.getActivationFunction()).isEqualTo(ActivationFunctionName.SIGMOID);

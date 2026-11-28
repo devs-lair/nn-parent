@@ -15,7 +15,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DenseLayer extends BaseLayerModel implements NeuronParametersHolder {
+public class DenseLayer extends BaseLayerModel
+        implements NeuronParametersHolder {
+
     private final NeuronParameters neuronParameters;
 
     public DenseLayer() {
@@ -25,13 +27,11 @@ public class DenseLayer extends BaseLayerModel implements NeuronParametersHolder
 
     public DenseLayer(int neuronCount) {
         this();
-
         addNeurons(neuronCount, NeuronType.BASIC);
     }
 
-    public DenseLayer(int neuronCount, NeuronType type) {
+    public DenseLayer(int neuronCount, @NotNull NeuronType type) {
         this();
-
         addNeurons(neuronCount, type);
     }
 
@@ -46,24 +46,11 @@ public class DenseLayer extends BaseLayerModel implements NeuronParametersHolder
         return this;
     }
 
-    public @NotNull DenseLayer addNeurons(int neuronCount, NeuronType type) {
+    public @NotNull DenseLayer addNeurons(int neuronCount, @NotNull NeuronType type) {
         for (int i = 0; i < neuronCount; i++) {
             addNeuron(NeuronFactory.createNeuron(type));
         }
         return this;
-    }
-
-    public void replaceNeuron(@NotNull NeuronModel source, @NotNull NeuronModel target) {
-        int index = indexOf(source);
-        if (index > 0) {
-            getNeurons().set(index, target);
-        } else {
-            throw new IllegalArgumentException("Source neuron not contains in layer");
-        }
-    }
-
-    public void setNeuronAt(int index, @NotNull NeuronModel target) {
-        getNeurons().set(index, target);
     }
 
     @Override

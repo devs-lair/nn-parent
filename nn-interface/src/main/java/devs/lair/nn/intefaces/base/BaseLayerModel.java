@@ -13,11 +13,14 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class BaseLayerModel implements LayerModel {
+    public static final String UNPARENT_LAYER = "Unparent layer";
+
     private final LayerType type;
     private final List<NeuronModel> neurons = new ArrayList<>();
+
     private NetworkModel network;
 
-    public BaseLayerModel(@NotNull LayerType type) {
+    protected BaseLayerModel(@NotNull LayerType type) {
         this.type = type;
     }
 
@@ -48,6 +51,18 @@ public abstract class BaseLayerModel implements LayerModel {
     }
 
     @Override
+    public void setNeuronAt(int index, @NotNull NeuronModel neuron) {
+        NeuronModel exist = neurons.get(index);
+        neurons.set(index, neuron);
+
+        if (neuron.getParent() != this) {
+            neuron.setParent(this);
+        }
+
+        exist.setParent(null);
+    }
+
+    @Override
     public @Nullable NetworkModel getParent() {
         return network;
     }
@@ -72,5 +87,15 @@ public abstract class BaseLayerModel implements LayerModel {
     @Override
     public @NotNull List<NeuronModel> getChildren() {
         return Collections.unmodifiableList(neurons);
+    }
+
+    @Override
+    public String toString() {
+        if (network == null) {
+            return UNPARENT_LAYER;
+        }
+
+        int index = network.indexOf(this);
+        return "Layer number " + index + " of " + network;
     }
 }

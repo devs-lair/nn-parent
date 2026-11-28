@@ -3,10 +3,7 @@ package devs.lair.nn.intefaces.base;
 import devs.lair.nn.intefaces.base.proto.LayerWithParameters;
 import devs.lair.nn.intefaces.base.proto.NetworkWithParameters;
 import devs.lair.nn.intefaces.base.proto.TestNeuron;
-import devs.lair.nn.intefaces.enums.ActivationFunctionName;
-import devs.lair.nn.intefaces.enums.LayerType;
-import devs.lair.nn.intefaces.enums.NetworkType;
-import devs.lair.nn.intefaces.enums.WeightInitStrategy;
+import devs.lair.nn.intefaces.enums.*;
 import devs.lair.nn.intefaces.model.LayerModel;
 import devs.lair.nn.intefaces.model.NetworkModel;
 import devs.lair.nn.intefaces.model.NeuronModel;
@@ -36,7 +33,8 @@ class BaseLayerModelTest {
         layer.addNeuron(first = new TestNeuron()).addNeuron(second = new TestNeuron());
 
         List<NeuronModel> items = layer.getChildren();
-        assertThrows(UnsupportedOperationException.class, () -> items.add(new TestNeuron()));
+        TestNeuron testNeuron = new TestNeuron();
+        assertThrows(UnsupportedOperationException.class, () -> items.add(testNeuron));
 
         assertThat(items).isNotEmpty().hasSize(2);
         assertThat(layer.getNeuronAt(0)).isEqualTo(first);
@@ -66,7 +64,7 @@ class BaseLayerModelTest {
         layer.setParent(network);
 
         assertThat(layer.getParent()).isEqualTo(network);
-        assertThat(network.indexOf(layer)).isEqualTo(0);
+        assertThat(network.indexOf(layer)).isZero();
     }
 
     @Test
@@ -99,7 +97,7 @@ class BaseLayerModelTest {
 
         assertThat(layerModel.getChildren()).isEmpty();
         assertThrows(IndexOutOfBoundsException.class,
-                () -> assertThat(layerModel.getNeuronAt(0)));
+                () -> layerModel.getNeuronAt(0));
 
         layerModel.addNeuron(new TestNeuron());
         layerModel.addNeuron(new TestNeuron());
@@ -120,12 +118,34 @@ class BaseLayerModelTest {
         firstModel.addLayer(layer);
 
         assertThat(layer.getParent()).isEqualTo(firstModel);
-        assertThat(firstModel.indexOf(layer)).isEqualTo(0);
+        assertThat(firstModel.indexOf(layer)).isZero();
 
         layer.setParent(secondModel);
         assertThat(layer.getParent()).isEqualTo(secondModel);
-        assertThat(secondModel.indexOf(layer)).isEqualTo(0);
+        assertThat(secondModel.indexOf(layer)).isZero();
         assertThat(firstModel.indexOf(layer)).isLessThan(0);
+
+    }
+
+    @Test
+    @DisplayName("Set Neuron At")
+    void setNeuronAt() {
+        BaseLayerModel layer = new BaseLayerModel(LayerType.DENSE) {};
+
+        TestNeuron testNeuron = new TestNeuron();
+        TestNeuron testNeuron2 = new TestNeuron();
+        layer.addNeuron(testNeuron);
+        layer.addNeuron(testNeuron2);
+
+        BaseNeuronModel historic = new BaseNeuronModel(NeuronType.HISTORIC) {};
+        layer.setNeuronAt(1, historic);
+        layer.setNeuronAt(0, historic);
+
+        assertThat(testNeuron.getParent()).isNull();
+        assertThat(testNeuron2.getParent()).isNull();
+        assertThat(historic.getParent()).isEqualTo(layer);
+        assertThat(layer.getNeuronAt(1)).isEqualTo(historic);
+        assertThat(layer.getNeuronAt(0)).isEqualTo(historic);
 
     }
 }
