@@ -76,4 +76,28 @@ class BaseNetworkModelTest {
         assertThat(firstLayer.getParent()).isNull();
         assertThat(secondLayer.getParent()).isEqualTo(network);
     }
+
+    @Test
+    @DisplayName("Set Layer At")
+    void setLayerAt() {
+        BaseNetworkModel network = new BaseNetworkModel(NetworkType.MULTILAYER) {};
+
+        BaseLayerModel layer1 = new LayerWithParameters();
+        BaseLayerModel layer2 = new LayerWithParameters();
+
+        network.addLayer(layer1);
+        network.addLayer(layer2);
+
+        BaseLayerModel layer3 = new LayerWithParameters();
+
+        network.setLayerAt(1, layer3);
+        network.setLayerAt(0, layer3);
+
+        assertThat(layer1.getParent()).isNull();
+        assertThat(layer2.getParent()).isNull();
+        assertThat(layer3.getParent()).isEqualTo(network);
+        assertThat(network.getLayerAt(1)).isEqualTo(layer3);
+        assertThat(network.getLayerAt(1)).isEqualTo(layer3);
+
+    }
 }
