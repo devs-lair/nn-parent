@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
 @Nls
-public class EmptyLayerCheck extends CriticalCheck<LayerModel> {
+public class LayerEmptyCheck extends CriticalCheck<LayerModel> {
 
     @Override
     public @NotNull ItemCheckResult runCheck(@NotNull LayerModel layer) {

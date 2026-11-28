@@ -15,6 +15,8 @@ public interface NetworkModel extends ParentFor<LayerModel> {
 
     boolean removeLayer(@NotNull LayerModel layer);
 
+    void setLayerAt(int index, @NotNull LayerModel layer);
+
     default @NotNull List<@NotNull LayerModel> getLayers() {
         return getChildren();
     }

@@ -1,12 +1,15 @@
 package devs.lair.nn.impl.check;
 
-import devs.lair.nn.impl.layers.checks.EmptyLayerCheck;
+import devs.lair.nn.impl.layers.checks.LayerEmptyCheck;
+import devs.lair.nn.impl.models.checks.NetworkEmptyCheck;
+import devs.lair.nn.impl.models.checks.NetworkHasOutputLayerCheck;
 import devs.lair.nn.impl.neurons.checks.HolderActivationFunctionSetCheck;
 import devs.lair.nn.impl.neurons.checks.HolderWeightInitSetCheck;
 import devs.lair.nn.intefaces.item.ChildOf;
 import devs.lair.nn.intefaces.item.ModelItem;
 import devs.lair.nn.intefaces.item.ParentFor;
 import devs.lair.nn.intefaces.model.LayerModel;
+import devs.lair.nn.intefaces.model.NetworkModel;
 import devs.lair.nn.intefaces.model.NeuronParametersHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,12 +24,16 @@ public class ModelChecker {
     private static final Map<Class<?>, List<ItemCheck<?>>> chekersMap = new HashMap<>();
 
     static {
-        putCheckers(NeuronParametersHolder.class,
-                List.of(new HolderActivationFunctionSetCheck(),
-                        new HolderWeightInitSetCheck()));
-        putCheckers(LayerModel.class,
-                List.of(new EmptyLayerCheck()));
+        putCheckers(NeuronParametersHolder.class, List.of(
+                new HolderActivationFunctionSetCheck(),
+                new HolderWeightInitSetCheck()));
 
+        putCheckers(LayerModel.class, List.of(
+                new LayerEmptyCheck()));
+
+        putCheckers(NetworkModel.class, List.of(
+                new NetworkEmptyCheck(),
+                new NetworkHasOutputLayerCheck()));
     }
 
     private ModelChecker() {
@@ -38,7 +45,7 @@ public class ModelChecker {
     }
 
     public static <T extends ModelItem> @NotNull List<ItemCheckResult> check(@NotNull T modelItem,
-                                                   @Nullable ItemCheckType type) {
+                                                                             @Nullable ItemCheckType type) {
         List<ItemCheckResult> checkResults = new ArrayList<>();
         return check(modelItem, type, checkResults);
     }
@@ -56,6 +63,10 @@ public class ModelChecker {
             checks.forEach(check -> results.add(check.runCheck(layer)));
         }
 
+        if (modelItem instanceof NetworkModel layer) {
+            List<ItemCheck<NetworkModel>> checks = getChecks(NetworkModel.class, type);
+            checks.forEach(check -> results.add(check.runCheck(layer)));
+        }
 
         if (modelItem instanceof ParentFor<?> parent) {
             for (ChildOf<?> child : parent.getChildren()) {

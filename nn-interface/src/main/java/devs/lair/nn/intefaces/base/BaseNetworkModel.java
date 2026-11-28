@@ -45,6 +45,18 @@ public class BaseNetworkModel implements NetworkModel, NamedItem, UuidIdentity {
     }
 
     @Override
+    public void setLayerAt(int index, @NotNull LayerModel layer) {
+        LayerModel exist = layers.get(index);
+        layers.set(index, layer);
+
+        if (layer.getParent() != this) {
+            layer.setParent(this);
+        }
+
+        exist.setParent(null);
+    }
+
+    @Override
     public @NotNull List<LayerModel> getChildren() {
         return Collections.unmodifiableList(layers);
     }
@@ -70,6 +82,6 @@ public class BaseNetworkModel implements NetworkModel, NamedItem, UuidIdentity {
 
     @Override
     public String toString() {
-        return name;
+        return "Network '%s'".formatted(name);
     }
 }

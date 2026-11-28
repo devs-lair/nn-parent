@@ -116,18 +116,18 @@ class BaseNeuronModelTest {
         assertThat(layerModel).hasToString(BaseLayerModel.UNPARENT_LAYER);
 
         BaseNetworkModel networkModel = new NetworkWithParameters();
-        assertThat(networkModel).hasToString(NetworkModel.UNNAMED);
+        assertThat(networkModel).hasToString("Network '%s'".formatted(NetworkModel.UNNAMED));
 
         String myNetwork = "MyNetwork";
         networkModel.setName(myNetwork);
-        assertThat(networkModel).hasToString(myNetwork);
+        assertThat(networkModel).hasToString("Network '%s'".formatted(myNetwork));
 
         layerModel.addNeuron(testNeuron);
         assertThat(testNeuron).hasToString("Neuron number 0 of " + BaseLayerModel.UNPARENT_LAYER);
 
         networkModel.addLayer(layerModel);
-        assertThat(layerModel).hasToString("Layer number 0 of " + myNetwork);
+        assertThat(layerModel).hasToString("Layer number 0 of " + "Network '%s'".formatted(myNetwork));
 
-        assertThat(testNeuron).hasToString("Neuron number 0 of Layer number 0 of " + myNetwork);
+        assertThat(testNeuron).hasToString("Neuron number 0 of Layer number 0 of " + "Network '%s'".formatted(myNetwork));
     }
 }

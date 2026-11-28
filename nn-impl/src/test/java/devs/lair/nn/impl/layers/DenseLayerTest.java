@@ -20,7 +20,7 @@ class DenseLayerTest {
     @Test
     @DisplayName("Create instance")
     void createInstance() {
-        DenseLayer denseLayer = new DenseLayer()
+        BasicLayer denseLayer = new DenseLayer()
                 .setActivationFunction(ActivationFunctionName.SIGMOID)
                 .setWeightInitStrategy(WeightInitStrategy.XAVIER);
 
